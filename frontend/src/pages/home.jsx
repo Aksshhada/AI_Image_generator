@@ -1,6 +1,10 @@
-import React from 'react'
-import styled from 'styled-components'
-import Searchbar from '../components/searchbar';
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import Searchbar from "../components/searchbar";
+import ImageCard from "../components/ImageCard";
+import { GetPosts } from "../api";
+import { CircularProgress } from "@mui/material";
+
 
 const Container = styled.div`
   padding: 30px 30px;
@@ -59,15 +63,81 @@ const CardWrapper = styled.div`
 `;
 
 
-const home = () => {
-  return (
-    <Container>
-        <HeadLine>Explore popular posts in the community!
-        <Span>⁕ Generated with AI ⁕</Span>
+const Home = () => {
+    const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+    const [search, setSearch] = useState("");
+    const [filteredPost, setFilteredPost] = useState([]);
+  
+    const getPosts = async () => {
+      setLoading(true);
+      await GetPosts()
+        .then((res) => {
+          setPosts(res?.data?.data);
+          setFilteredPost(res?.data?.data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          setError(error?.response?.data?.message);
+          setLoading(false);
+        });
+    };
+  
+    useEffect(() => {
+      getPosts();
+    }, []);
+  
+    useEffect(() => {
+      if (!search) {
+        setFilteredPost(posts);
+      }
+      const filteredPosts = posts.filter((post) => {
+        const promptMatch = post?.prompt?.toLowerCase().includes(search);
+        const authorMatch = post?.author?.toLowerCase().includes(search);
+  
+        return promptMatch || authorMatch;
+      });
+  
+      if (search) {
+        setFilteredPost(filteredPosts);
+      }
+    }, [posts, search]);
+  
+    return (
+      <Container>
+        <HeadLine>
+          Explore popular posts in the Community!
+          <Span>⦾ Generated with AI ⦾</Span>
         </HeadLine>
-        <Searchbar />
-    </Container>
-  )
-}
+        <Searchbar
+          search={search}
+          handleChange={(e) => setSearch(e.target.value)}
+        />
+        <Wrapper>
+          {error && <div style={{ color: "red" }}>{error}</div>}
+          {loading ? (
+            <CircularProgress />
+          ) : (
+            <CardWrapper>
+              {filteredPost.length > 0 ? (
+                <>
+                  {filteredPost
+                    .slice()
+                    .reverse()
+                    .map((item, index) => (
+                      <ImageCard key={index} item={item} />
+                    ))}
+                </>
+              ) : (
+                <>No Posts Found !!</>
+              )}
+            </CardWrapper>
+          )}
+        </Wrapper>
+      </Container>
+    );
+  };
+  
 
-export default home
+export default Home

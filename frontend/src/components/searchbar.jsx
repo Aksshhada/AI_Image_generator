@@ -17,11 +17,27 @@ const SearchBarContainer = styled.div`
 `;
 
 
-
-const searchbar = () => {
-  return (
-    <div>searchbar</div>
-  )
-}
+const searchbar =({ search, handleChange }) => {
+    return (
+      <SearchBarContainer>
+        <SearchOutlined sx={{ color: "inherit" }} />
+        <input
+          type="text"
+          placeholder="Search with prompt or name . . ."
+          style={{
+            border: "none",
+            outline: "none",
+            width: "100%",
+            background: "inherit",
+            color: "inherit",
+          }}
+          value={search}
+          onChange={(e) => handleChange(e)}
+        />
+      </SearchBarContainer>
+    );
+  };
+  
+  
 
 export default searchbar
