@@ -4,36 +4,34 @@ import GenerateImageForm from "../components/GenerateImageForm";
 import GeneratedImageCard from "../components/GeneratedImageCard";
 
 const Container = styled.div`
-  height: 100%;
-  overflow-y: scroll;
-  background: ${({ theme }) => theme.bg};
-  padding: 30px 30px;
+  padding: 20px 30px;
   padding-bottom: 50px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  height: 100%;
   justify-content: center;
+  align-items: center;
+  overflow-y: scroll;
+  display: flex;
   gap: 20px;
   @media (max-width: 768px) {
     padding: 6px 10px;
   }
+  background: ${({ theme }) => theme.background};
 `;
 
 const Wrapper = styled.div`
-  width: 100%;
-  height: fit-content;
-  max-width: 1200px;
-  gap: 8%;
   display: flex;
-  justify-content: center;
+  gap: 8%;
+  flex: 1;
+  max-width: 1200px;
+  height: fit-content;
   @media (max-width: 768px) {
     flex-direction: column;
   }
 `;
 
-const createPost = () => {
+const CreatePost = () => {
   const [generateImageLoading, setGenerateImageLoading] = useState(false);
-  const [createPostLoading, setCreatePostLoading] = useState(false);
+  const [createPostLoading, setcreatePostLoading] = useState(false);
   const [post, setPost] = useState({
     name: "",
     prompt: "",
@@ -43,17 +41,17 @@ const createPost = () => {
     <Container>
       <Wrapper>
         <GenerateImageForm
+          createPostLoading={createPostLoading}
+          setcreatePostLoading={setcreatePostLoading}
+          generateImageLoading={generateImageLoading}
+          setGenerateImageLoading={setGenerateImageLoading}
           post={post}
           setPost={setPost}
-          createPostLoading={createPostLoading}
-          setGenerateImageLoading={setGenerateImageLoading}
-          generateImageLoading={generateImageLoading}
-          setCreatePostLoading={setCreatePostLoading}
         />
-        <GeneratedImageCard src={post?.photo} loading={generateImageLoading} />
+        <GeneratedImageCard loading={generateImageLoading} src={post.photo} />
       </Wrapper>
     </Container>
   );
 };
 
-export default createPost;
+export default CreatePost;

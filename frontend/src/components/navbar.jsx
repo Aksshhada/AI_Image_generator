@@ -1,8 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
-import Button from "../components/button";
+import React from "react";
+import styled from "styled-components";
+import Button from "./button";
+import { useLocation, useNavigate } from "react-router";
 import { AddRounded, WebRounded } from "@mui/icons-material";
-import { useLocation, useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   flex: 1;
@@ -21,37 +21,37 @@ const Container = styled.div`
 `;
 
 const Navbar = () => {
-    const navigate = useNavigate();
-    const location = useLocation();
-    let path = location.pathname.split("/");
+  const navigate = useNavigate();
+  const location = useLocation();
 
-    const gotoCreatePost = () => {
-      navigate("/post");
-    };
+  let path = location.pathname.split("/");
 
-    const gottoHome = () => {
-      navigate("/");
-    };
-
-    return (
-      <Container>
-        GenAI
-        {path[1] === "post" ? (
-          <Button
-            text="Explore Posts"
-            leftIcon={<WebRounded style={{ fontSize: "18px" }} />}
-            onClick={gottoHome}
-            type="secondary"
-          />
-        ) : (
-          <Button
-            text="Create new post"
-            leftIcon={<AddRounded style={{ fontSize: "18px" }} />}
-            onClick={gotoCreatePost}
-          />
-        )}
-      </Container>
-    );
+  const gotoCreatePost = () => {
+    navigate("/post");
+  };
+  const gottoHome = () => {
+    navigate("/");
+  };
+  console.log(path);
+  return (
+    <Container>
+      GemAI
+      {path[1] === "post" ? (
+        <Button
+          text="Explore Posts"
+          leftIcon={<WebRounded style={{ fontSize: "18px" }} />}
+          onClick={gottoHome}
+          type="secondary"
+        />
+      ) : (
+        <Button
+          text="Create new post"
+          leftIcon={<AddRounded style={{ fontSize: "18px" }} />}
+          onClick={gotoCreatePost}
+        />
+      )}
+    </Container>
+  );
 };
 
 export default Navbar;

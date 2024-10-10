@@ -1,5 +1,5 @@
-import React from 'react'
 import { SearchOutlined } from "@mui/icons-material";
+import React from "react";
 import styled from "styled-components";
 
 const SearchBarContainer = styled.div`
@@ -16,28 +16,25 @@ const SearchBarContainer = styled.div`
   color: ${({ theme }) => theme.text_secondary};
 `;
 
+const SearchBar = ({ search, handleChange }) => {
+  return (
+    <SearchBarContainer>
+      <SearchOutlined sx={{ color: "inherit" }} />
+      <input
+        type="text"
+        placeholder="Search with prompt or name. . ."
+        style={{
+          border: "none",
+          outline: "none",
+          width: "100%",
+          background: "inherit",
+          color: "inherit",
+        }}
+        value={search}
+        onChange={(e) => handleChange(e)}
+      />
+    </SearchBarContainer>
+  );
+};
 
-const searchbar =({ search, handleChange }) => {
-    return (
-      <SearchBarContainer>
-        <SearchOutlined sx={{ color: "inherit" }} />
-        <input
-          type="text"
-          placeholder="Search with prompt or name . . ."
-          style={{
-            border: "none",
-            outline: "none",
-            width: "100%",
-            background: "inherit",
-            color: "inherit",
-          }}
-          value={search}
-          onChange={(e) => handleChange(e)}
-        />
-      </SearchBarContainer>
-    );
-  };
-  
-  
-
-export default searchbar
+export default SearchBar;

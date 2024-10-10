@@ -24,7 +24,7 @@ app.use((err, req, res, next) => {
 });
 
 
-app.use("/api/post", PostRouter);
+app.use("/api/posts", PostRouter);
 app.use("/api/generateImage", GenerateImageRouter);
 
 
